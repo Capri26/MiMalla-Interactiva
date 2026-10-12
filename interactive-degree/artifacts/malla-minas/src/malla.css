@@ -1,0 +1,373 @@
+/* ====================== VARIABLES ====================== */
+:root {
+  --bg0: #070A10;
+  --bg1: #0B1220;
+  --text: #EAF0FF;
+  --muted: #A8B4CC;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface2: rgba(255, 255, 255, 0.09);
+  --line: rgba(255, 255, 255, 0.10);
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  --shadow2: 0 8px 20px rgba(0, 0, 0, 0.25);
+  --accent: #77A7FF;
+  --ok: #35D07F;
+  --warn: #FFCE6A;
+  --pre: #B084FF;
+}
+
+/* ====================== RESET ====================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+.malla-root {
+  min-height: 100vh;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(900px 600px at 10% 0%, rgba(119, 167, 255, 0.18), transparent 60%),
+    radial-gradient(900px 600px at 90% 10%, rgba(53, 208, 127, 0.10), transparent 55%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
+  position: relative;
+}
+
+.malla-root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.10;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(900px 600px at 50% 0%, black 30%, transparent 70%);
+  z-index: 0;
+}
+
+/* ====================== TOPBAR ====================== */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(7, 10, 16, 0.80);
+  backdrop-filter: blur(12px);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: var(--text);
+}
+
+.muted {
+  color: var(--muted);
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btn {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 13px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: border-color 0.15s, background 0.15s, transform 0.08s;
+  white-space: nowrap;
+}
+.btn:hover {
+  border-color: rgba(119, 167, 255, 0.5);
+  background: var(--surface2);
+}
+.btn:active { transform: scale(0.97); }
+
+/* ====================== LEGEND ====================== */
+.legend {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 20px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.dot.done { background: var(--ok); }
+.dot.open { background: var(--accent); }
+.dot.lock { background: rgba(168, 180, 204, 0.6); }
+.dot.hi   { background: var(--warn); }
+.dot.pre  { background: var(--pre); }
+
+/* ====================== STATUS BAR ====================== */
+.status-bar {
+  margin: 10px 20px 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-text {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.hover-hint {
+  font-size: 12px;
+  color: var(--muted);
+  min-height: 16px;
+}
+
+.toast-msg {
+  font-size: 12px;
+  color: var(--warn);
+  min-height: 16px;
+}
+
+/* ====================== GRID SCROLL ====================== */
+.grid-scroll {
+  padding: 14px 20px 30px;
+  overflow-x: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.malla-grid {
+  --cols: 11;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(160px, 1fr));
+  grid-template-rows: 32px auto;
+  gap: 10px;
+  align-items: start;
+  padding: 10px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: var(--shadow);
+  min-width: calc(var(--cols) * 170px);
+}
+
+/* ====================== GROUP BAR ====================== */
+.group-bar {
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(234, 240, 255, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+/* ====================== SEMESTER COLUMN ====================== */
+.sem-col {
+  grid-row: 2;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.sem-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--line);
+}
+
+.sem-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.sem-count {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 8px;
+}
+
+/* ====================== COURSE CARD ====================== */
+.course-card {
+  position: relative;
+  padding: 8px 9px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.course-card:hover {
+  border-color: rgba(119, 167, 255, 0.4);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+}
+
+.card-done {
+  border-color: rgba(53, 208, 127, 0.45) !important;
+  box-shadow: 0 0 0 1px rgba(53, 208, 127, 0.08) inset;
+}
+
+.card-locked {
+  opacity: 0.35;
+  filter: grayscale(0.3);
+  cursor: not-allowed;
+}
+.card-locked:hover {
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: none !important;
+}
+
+/* Focus / hover states */
+.card-dim {
+  opacity: 0.12;
+  transition: opacity 0.1s;
+}
+
+.card-focus {
+  opacity: 1 !important;
+  border-color: rgba(255, 206, 106, 0.80) !important;
+  box-shadow: 0 0 0 2px rgba(255, 206, 106, 0.12) inset !important;
+  transform: translateY(-2px);
+}
+
+.card-highlight {
+  opacity: 1 !important;
+  border-color: rgba(255, 206, 106, 0.55) !important;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25) !important;
+  transform: translateY(-1px);
+}
+
+.card-prereq {
+  opacity: 1 !important;
+  border-color: rgba(176, 132, 255, 0.70) !important;
+  box-shadow: 0 0 0 2px rgba(176, 132, 255, 0.10) inset !important;
+  transform: translateY(-1px);
+}
+
+/* ====================== CARD INTERNALS ====================== */
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.card-code {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: rgba(234, 240, 255, 0.85);
+}
+
+.card-icon {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.card-title {
+  font-size: 11px;
+  line-height: 1.25;
+  margin: 0 0 6px;
+  color: var(--text);
+}
+
+.card-badges {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.20);
+  font-size: 10px;
+}
+
+.s-done { color: rgba(168, 240, 198, 0.95); border-color: rgba(53, 208, 127, 0.3); }
+.s-open { color: rgba(198, 214, 255, 0.95); border-color: rgba(119, 167, 255, 0.3); }
+.s-lock { color: rgba(168, 180, 204, 0.70); }
+
+.badge-cr {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.15);
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* ====================== FOOTER ====================== */
+.footer {
+  padding: 14px 20px 20px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  position: relative;
+  z-index: 1;
+}
